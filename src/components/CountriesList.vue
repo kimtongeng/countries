@@ -3,6 +3,7 @@
         <div class="container-fluid">
             
             <Sort v-model:temp-countries="tempCountries" :countries-data="countriesData" :display-country="()=>{displayCountry()}"></Sort>            
+            <Search :countries-data="countriesData" v-model:countries="countries" :display-country="()=>{displayCountry()}"></Search>
             
         </div>
     </nav>
@@ -38,12 +39,14 @@ import axios from 'axios';
 import Modal from './Modal.vue';
 import Pagination from './Pagination.vue';
 import Sort from './Sort.vue';
+import Search from './Search.vue';
+
 export default {
     components:{
         Modal,
         Pagination,
         Sort,
-
+        Search
     },
     data() {
         return {
