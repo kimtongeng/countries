@@ -1,4 +1,11 @@
 <template >
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+            
+            <Sort v-model:temp-countries="tempCountries" :countries-data="countriesData" :display-country="()=>{displayCountry()}"></Sort>            
+            
+        </div>
+    </nav>
     <div class="container mt-5">
         <div class="d-flex justify-content-center">
             <Pagination :pages-show="pageShow" v-model:current-page="currentPage" :items-per-page="itemsPerPage" :display-country="()=>{displayCountry()}"/>
@@ -30,10 +37,12 @@
 import axios from 'axios';
 import Modal from './Modal.vue';
 import Pagination from './Pagination.vue';
+import Sort from './Sort.vue';
 export default {
     components:{
         Modal,
         Pagination,
+        Sort,
 
     },
     data() {
