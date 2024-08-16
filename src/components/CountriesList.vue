@@ -5,7 +5,7 @@
                 <div class="card">
                     <img :src="country.flags.png" class="card-img-top" alt="Country Flag">
                     <div class="card-body">
-                        <h5 class="card-title">{{ country.name.official }}</h5>
+                        <h5 class="card-title" data-bs-toggle="modal" data-bs-target="#exampleModal" @click="getCountry(country)">{{ country.name.official }}</h5>
                         <p class="card-text">2-character Country Code: <span id="cca2">{{ country.cca2 }}</span></p>
                         <p class="card-text">3-character Country Code: <span id="cca3">{{ country.cca3 }}</span></p>
                         <div class="card-text mt-2">
@@ -25,12 +25,17 @@
 </template>
 <script>
 import axios from 'axios';
-
+import Modal from './Modal.vue';
 export default {
+    components:{
+        Modal,
+    },
     data() {
         return {
             countriesData:[],
             countries:[],
+
+            selectedCountry:null
         }
     }, 
     
@@ -45,6 +50,9 @@ export default {
         },
         getNativeName(country) {
             return country.name.nativeName ? Object.values(country.name.nativeName)[0].common : 'N/A';
+        },
+        getCountry(country){
+            this.selectedCountry = country;
         },
     },  
     mounted() {
