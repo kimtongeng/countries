@@ -1,5 +1,8 @@
 <template >
     <div class="container mt-5">
+        <div class="d-flex justify-content-center">
+            <Pagination :pages-show="pageShow" v-model:current-page="currentPage" :items-per-page="itemsPerPage" :display-country="()=>{displayCountry()}"/>
+        </div>
         <div class="row">   
             <div class="col-md-3 mb-3"  v-for="(country,index) in countries" :key="index">
                 <div class="card">
@@ -26,14 +29,22 @@
 <script>
 import axios from 'axios';
 import Modal from './Modal.vue';
+import Pagination from './Pagination.vue';
 export default {
     components:{
         Modal,
+        Pagination,
+
     },
     data() {
         return {
             countriesData:[],
             countries:[],
+            tempCountries:[],
+
+            currentPage:1,
+            itemsPerPage:25,
+            pageShow:1,
 
             selectedCountry:null
         }
@@ -54,11 +65,18 @@ export default {
         getCountry(country){
             this.selectedCountry = country;
         },
+        displayCountry(){            
+            const startIndex = (this.currentPage * this.itemsPerPage) - this.itemsPerPage;
+            const endIndex = startIndex + this.itemsPerPage;
+            this.countries = this.tempCountries.slice(startIndex,endIndex);
+        },
     },  
     mounted() {
         axios.get("https://restcountries.com/v3.1/all").then((res)=>{
             this.countriesData = res.data;
-            this.countries = [...this.countriesData];
+            this.tempCountries = [...this.countriesData];
+            this.pageShow = Math.ceil(this.countriesData.length / this.itemsPerPage);
+            this.displayCountry();
         }).catch((err)=>{
             console.log(err);
         })
